@@ -1,33 +1,19 @@
 <h2>play history</h2>
-    
-<p>title: <%= dish.title %></p>
 
-image: <img src="<%= dish.image_url %>" alt="">
+<% for (let hand of handsHistory) { %>
 
-<p>description: <%= dish.description %></p>
+<p>hand id: <%= hand.hand_id %></p>
 
-<p>category: <%= dish.category %></p>
+<p>blind level: <%= hand.blind_level %></p>
 
-<form action="/dishes/<%= dish.id %>?_method=DELETE" method="post">
-    <button>delete</button>
+<p>session date: <%= hand.session_date.toLocaleDateString('en-AU') %></p>
+
+<p>win loss: <%= hand.win_loss %></p>
+
+<p>notes: <%= hand.notes %></p>
+
+<form action="/playhistory/<%= hand.hand_id %>/edit">
+    <button>edit hand</button>
 </form>
-
-<a href="/dishes/<%= dish.id %>/edit">edit dish</a>
-
-<h4>created by <%= email %></h4>
-
-<form action="/comments" method="post">
-    <input type="hidden" name="dish_id" value="<%= dish.id %>">
-    <label for="">content</label>
-    <textarea name="content" id=""></textarea>
-    <button>post comment</button>
-</form>
-
-<h1>comments</h1>
-
-<% for (let comment of comments) { %>
-
-    <p><%= comment.content %></p>
-    <p>posted by <%= comment.email %></p>
 
 <% } %>

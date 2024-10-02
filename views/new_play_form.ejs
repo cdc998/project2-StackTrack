@@ -1,0 +1,23 @@
+<h2>log your play</h2>
+
+<form action="/playhistory" method="post">
+    <label for="">blind level</label>
+    <select name="blind_level">     
+        <option value="1/2">1/2</option>
+        <option value="2/5">2/5</option>
+        <option value="5/10">5/10</option>
+        <option value="20/40">20/40</option>
+        <option value="50/100">50/100</option>
+    </select>
+
+    <label for="">session date</label>
+    <input type="date" name="session_date" max="<%= new Date().toISOString().split("T")[0] %>" required>
+
+    <label for="">win loss</label>
+    <input type="number" name="win_loss" required>
+
+    <label for="">notes</label>
+    <textarea name="notes" rows="5" cols="30" required></textarea>
+
+    <button>post</button>
+</form>
