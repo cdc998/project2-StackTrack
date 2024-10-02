@@ -1,1 +1,33 @@
-<h1>We got here</h1>
+<h2>play history</h2>
+    
+<p>title: <%= dish.title %></p>
+
+image: <img src="<%= dish.image_url %>" alt="">
+
+<p>description: <%= dish.description %></p>
+
+<p>category: <%= dish.category %></p>
+
+<form action="/dishes/<%= dish.id %>?_method=DELETE" method="post">
+    <button>delete</button>
+</form>
+
+<a href="/dishes/<%= dish.id %>/edit">edit dish</a>
+
+<h4>created by <%= email %></h4>
+
+<form action="/comments" method="post">
+    <input type="hidden" name="dish_id" value="<%= dish.id %>">
+    <label for="">content</label>
+    <textarea name="content" id=""></textarea>
+    <button>post comment</button>
+</form>
+
+<h1>comments</h1>
+
+<% for (let comment of comments) { %>
+
+    <p><%= comment.content %></p>
+    <p>posted by <%= comment.email %></p>
+
+<% } %>

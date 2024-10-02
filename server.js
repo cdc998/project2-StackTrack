@@ -28,7 +28,6 @@ app.use(session({
     saveUninitialized: true
 }))
 app.use(setCurrentUser)
-
 app.use(expressLayouts)
 
 app.get('/', (req, res) => {
