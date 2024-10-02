@@ -11,9 +11,9 @@ CREATE TABLE play_history (
 
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
-    username TEXT UNIQUE,
-    email TEXT UNIQUE,
-    password_digest TEXT
+    username TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password_digest TEXT NOT NULL
 );
 
 INSERT INTO play_history (user_id, blind_level, session_date, win_loss, notes)
