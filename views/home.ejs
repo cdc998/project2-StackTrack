@@ -1,10 +1,16 @@
-<h1>StackTrack</h1>
-<h2>Your Poker Bankroll Management App</h2>
+<div class="home-container">
+    <h1 class="title text-focus-in">StackTrack</h1>
+    <h2 class="text-shadow-drop-center">Master Your Bankroll, Elevate Your Game</h2>
 
-<form action="/login">
-    <button>login</button>
-</form>
-
-<form action="/signup">
-    <button>sign up</button>
-</form>
+    <div class="home-buttons-container">
+        <% if (!isLoggedIn) { %>
+            <form action="/login">
+                <button class="scale-in-center">Login</button>
+            </form>
+        
+            <form action="/signup">
+                <button class="scale-in-center">Sign Up</button>
+            </form>
+        <% } %>
+    </div>
+</div>

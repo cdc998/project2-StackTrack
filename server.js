@@ -9,11 +9,12 @@ const session = require('express-session')
 
 const db = require ('./db/index')
 
-const bcrypt = require('bcrypt')
-
 const requestLogger = require('./middlewares/request_logger')
 const setCurrentUser = require('./middlewares/set_current_user')
+const ensureLoggedIn = require('./middlewares/ensure_logged_in')
 
+const sessionRouter = require('./routes/session_router')
+const playhistoryRouter = require('./routes/playhistory_router')
 
 app.set('view engine', 'ejs')
 
@@ -34,182 +35,173 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/playhistory', (req, res) => {
+app.use(sessionRouter)
+
+app.use(ensureLoggedIn)
+
+app.use(playhistoryRouter)
+
+app.get('/highlights', (req, res) => {
     const sql = `
-    SELECT * FROM 
-    play_history WHERE 
-    user_id = $1
-    ORDER BY 
-    session_date DESC;
+    SELECT highlight_plays.*, users.username 
+    FROM highlight_plays 
+    JOIN users
+    ON highlight_plays.user_id = users.user_id
     `
 
-    db.query(sql, [req.session.userId], (err, result) => {
+    const currentUserId = req.session.userId
+
+    db.query(sql, (err, result) => {
         if (err) {
             console.log(err)
         }
 
-        console.log(result)
+        let highlightHands = result.rows
 
-        let handsHistory = result.rows
-
-        res.render('play_history', {handsHistory})
-    })
-}) 
-
-app.get('/playhistory/:handId/edit', (req, res) => {
-    const sql = `
-    SELECT * FROM play_history 
-    WHERE hand_id = $1;
-    `
-
-    db.query(sql, [req.params.handId], (err, result) => {
-        const hand = result.rows[0]
-        res.render('play_edit_form', {hand})
+        res.render('highlights', {highlightHands, currentUserId})
     })
 })
 
-app.get('/playhistory/new', (req, res) => {
-    res.render('new_play_form')
-})
-
-app.post('/playhistory', (req, res) => {
-    const user_id = req.session.userId
-    const blind_level = req.body.blind_level
-    const session_date = req.body.session_date
-    const win_loss = req.body.win_loss
-    const notes = req.body.notes
-
+app.get('/highlight/:highlightId', (req, res) => {
     const sql = `
-    INSERT INTO play_history 
-    (user_id, blind_level, session_date, win_loss, notes) 
-    VALUES 
-    ($1, $2, $3, $4, $5)
+    SELECT highlight_plays.*, users.username 
+    FROM highlight_plays 
+    JOIN users ON highlight_plays.user_id = users.user_id 
+    WHERE highlight_plays.highlight_id = $1;
     `
 
-    db.query(sql, [user_id, blind_level, session_date, win_loss, notes], (err, result) => {
+    const currentUserId = req.session.userId
+
+    db.query(sql, [req.params.highlightId], (err, result) => {
         if (err) {
             console.log(err)
         }
 
-        res.redirect('/playhistory')
-    })
-})
+        let highlightHand = result.rows[0]
 
-app.put('/playhistory/:handId', (req, res) => {
-    const blind_level = req.body.blind_level
-    const session_date = req.body.session_date
-    const win_loss = req.body.win_loss
-    const notes = req.body.notes
-    const hand_id = req.body.hand_id
+        const sql = `
+        SELECT comments.*, users.username 
+        FROM comments 
+        JOIN users ON comments.user_id = users.user_id 
+        WHERE comments.highlight_id = $1;
+        `
 
-    const sql = `
-    UPDATE play_history 
-    SET blind_level = $1, session_date = $2, 
-    win_loss = $3, notes = $4
-    WHERE hand_id = $5;
-    `
-
-    db.query(sql, [blind_level, session_date, win_loss, notes, hand_id], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
-
-        console.log(result)
-
-        res.redirect('/playhistory')
-    })
-})
-
-app.delete('/playhistory/:handId', (req, res) => {
-    const sql = `
-    DELETE FROM play_history 
-    WHERE hand_id = $1;
-    `
-
-    db.query(sql, [req.params.handId], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
-        res.redirect('/playhistory')
-    })
-})
-
-
-
-
-
-
-
-app.get('/login', (req, res) => {
-    res.render('login')
-})
-
-app.post('/login', (req, res) => {
-    const email = req.body.email
-    const password = req.body.password
-
-    const sql =`
-    SELECT * FROM users 
-    WHERE email = $1
-    `
-
-    db.query(sql, [email], (err, result) => {
-        if (err) {
-            console.log(err)
-        }
-
-        if (result.rows.length === 0) {
-            return res.send('user not found')
-        }
-
-        const user = result.rows[0]
-
-        bcrypt.compare(password, user.password_digest, (err, isCorrect) => {
+        db.query(sql, [req.params.highlightId], (err, result) => {
             if (err) {
                 console.log(err)
             }
 
-            if (!isCorrect) {
-                return res.send('password is wrong')
-            }
+            let comments = result.rows
 
-            req.session.userId = user.user_id
-
-            res.redirect('/playhistory')
+            res.render('highlight', {highlightHand, currentUserId, comments})
         })
     })
 })
 
-app.get('/signup', (req, res) => {
-    res.render('sign_up')
+app.get('/highlights/new', (req, res) => {
+    res.render('new_highlight_form')
 })
 
-app.post('/signup', (req, res) => {
-    console.log(req.body)
+app.get('/highlights/:highlightId/edit', (req, res) => {
+    const sql = `
+    SELECT * FROM highlight_plays 
+    WHERE highlight_id = $1;
+    `
 
-    let username = req.body.username
-    let email = req.body.email
-    let plainTextPass = req.body.password
-    let saltRounds = 10
+    db.query(sql, [req.params.highlightId], (err, result) => {
+        const highlight = result.rows[0]
+        res.render('highlight_edit_form', {highlight})
+    })
+})
 
-    bcrypt.genSalt(saltRounds, (err, salt) => {
-        bcrypt.hash(plainTextPass, salt, (err, hash) => {
-            const sql = `
-            INSERT INTO users 
-            (username, email, password_digest)
-            VALUES
-            ($1, $2, $3)
-            RETURNING *;
-            `
+app.post('/highlights', (req, res) => {
+    const user_id = req.session.userId
+    const blind_level = req.body.blind_level
+    const session_date = req.body.session_date
+    const hole_card1 = req.body.hole_card_1
+    const hole_card2 = req.body.hole_card_2
+    const hand_description = req.body.hand_description
+    const stage = req.body.stage
+    const action = req.body.action
 
-            db.query(sql, [username, email, hash], (err, result) => {
-                if (err) {
-                    console.log(err)
-                }
-                
-                res.redirect('/')
-            })
-        })
+    const sql = `
+    INSERT INTO highlight_plays 
+    (user_id, blind_level, session_date, hole_card_1, hole_card_2, hand_description, stage, action) 
+    VALUES 
+    ($1, $2, $3, $4, $5, $6, $7, $8)
+    `
+
+    db.query(sql, [user_id, blind_level, session_date, hole_card1, hole_card2, hand_description, stage, action], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+
+        res.redirect('/highlights')
+    })
+})
+
+app.put('/highlights/:highlightId', (req, res) => {
+    const user_id = req.session.userId
+    const blind_level = req.body.blind_level
+    const session_date = req.body.session_date
+    const hole_card1 = req.body.hole_card_1
+    const hole_card2 = req.body.hole_card_2
+    const hand_description = req.body.hand_description
+    const stage = req.body.stage
+    const action = req.body.action
+    const highlight_id = req.params.highlightId
+
+    const sql = `
+    UPDATE highlight_plays 
+    SET user_id = $1, blind_level = $2, 
+    session_date = $3, hole_card_1 = $4, hole_card_2 = $5  
+    hand_description = $6, stage = $7, 
+    action = $8 
+    WHERE highlight_id = $9;
+    `
+
+    db.query(sql, [user_id, blind_level, session_date, hole_card1, hole_card2, hand_description, stage, action, highlight_id], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+
+        console.log(result)
+
+        res.redirect('/highlights')
+    })
+})
+
+app.delete('/highlights/:highlightId', (req, res) => {
+    const sql = `
+    DELETE FROM highlight_plays 
+    WHERE highlight_id = $1;
+    `
+
+    db.query(sql, [req.params.highlightId], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+        res.redirect('/highlights')
+    })
+})
+
+app.post('/comments', (req, res) => {
+    const highlightId = req.body.highlight_id
+    const userId = req.session.userId
+    const comment = req.body.comment
+
+    const sql = `
+    INSERT INTO comments 
+    (highlight_id, user_id, comment_text) 
+    VALUES ($1, $2, $3)
+    `
+
+    db.query(sql, [highlightId, userId, comment], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+
+        res.redirect(`/highlight/${highlightId}`)
     })
 })
 

@@ -1,0 +1,154 @@
+<h2 class="page-title">log your highlight</h2>
+
+<form action="/highlights" method="post">
+    <label for="">blind level</label>
+    <select name="blind_level">     
+        <option value="1/2">1/2</option>
+        <option value="2/5">2/5</option>
+        <option value="5/10">5/10</option>
+        <option value="20/40">20/40</option>
+        <option value="50/100">50/100</option>
+    </select>
+
+    <label for="">session date</label>
+    <input type="date" name="session_date" max="<%= new Date().toISOString().split("T")[0] %>" required>
+
+    <label for="">hole card 1</label>
+    <select name="hole_card_1">
+        <option value="0">Ace of Spades</option>
+        <option value="1">Two of Spades</option>
+        <option value="2">Three of Spades</option>
+        <option value="3">Four of Spades</option>
+        <option value="4">Five of Spades</option>
+        <option value="5">Six of Spades</option>
+        <option value="6">Seven of Spades</option>
+        <option value="7">Eight of Spades</option>
+        <option value="8">Nine of Spades</option>
+        <option value="9">Ten of Spades</option>
+        <option value="10">Jack of Spades</option>
+        <option value="11">Queen of Spades</option>
+        <option value="12">King of Spades</option>
+
+        <option value="13">Ace of Clubs</option>
+        <option value="14">Two of Clubs</option>
+        <option value="15">Three of Clubs</option>
+        <option value="16">Four of Clubs</option>
+        <option value="17">Five of Clubs</option>
+        <option value="18">Six of Clubs</option>
+        <option value="19">Seven of Clubs</option>
+        <option value="20">Eight of Clubs</option>
+        <option value="21">Nine of Clubs</option>
+        <option value="22">Ten of Clubs</option>
+        <option value="23">Jack of Clubs</option>
+        <option value="24">Queen of Clubs</option>
+        <option value="25">King of Clubs</option>
+
+        <option value="26">Ace of Diamonds</option>
+        <option value="27">Two of Diamonds</option>
+        <option value="28">Three of Diamonds</option>
+        <option value="29">Four of Diamonds</option>
+        <option value="30">Five of Diamonds</option>
+        <option value="31">Six of Diamonds</option>
+        <option value="32">Seven of Diamonds</option>
+        <option value="33">Eight of Diamonds</option>
+        <option value="34">Nine of Diamonds</option>
+        <option value="35">Ten of Diamonds</option>
+        <option value="36">Jack of Diamonds</option>
+        <option value="37">Queen of Diamonds</option>
+        <option value="38">King of Diamonds</option>
+
+        <option value="39">Ace of Hearts</option>
+        <option value="40">Two of Hearts</option>
+        <option value="41">Three of Hearts</option>
+        <option value="42">Four of Hearts</option>
+        <option value="43">Five of Hearts</option>
+        <option value="44">Six of Hearts</option>
+        <option value="45">Seven of Hearts</option>
+        <option value="46">Eight of Hearts</option>
+        <option value="47">Nine of Hearts</option>
+        <option value="48">Ten of Hearts</option>
+        <option value="49">Jack of Hearts</option>
+        <option value="50">Queen of Hearts</option>
+        <option value="51">King of Hearts</option>
+    </select>
+
+    <label for="">hole card 2</label>
+    <select name="hole_card_2" id="hole_card_1">
+        <option value="0">Ace of Spades</option>
+        <option value="1">Two of Spades</option>
+        <option value="2">Three of Spades</option>
+        <option value="3">Four of Spades</option>
+        <option value="4">Five of Spades</option>
+        <option value="5">Six of Spades</option>
+        <option value="6">Seven of Spades</option>
+        <option value="7">Eight of Spades</option>
+        <option value="8">Nine of Spades</option>
+        <option value="9">Ten of Spades</option>
+        <option value="10">Jack of Spades</option>
+        <option value="11">Queen of Spades</option>
+        <option value="12">King of Spades</option>
+
+        <option value="13">Ace of Clubs</option>
+        <option value="14">Two of Clubs</option>
+        <option value="15">Three of Clubs</option>
+        <option value="16">Four of Clubs</option>
+        <option value="17">Five of Clubs</option>
+        <option value="18">Six of Clubs</option>
+        <option value="19">Seven of Clubs</option>
+        <option value="20">Eight of Clubs</option>
+        <option value="21">Nine of Clubs</option>
+        <option value="22">Ten of Clubs</option>
+        <option value="23">Jack of Clubs</option>
+        <option value="24">Queen of Clubs</option>
+        <option value="25">King of Clubs</option>
+
+        <option value="26">Ace of Diamonds</option>
+        <option value="27">Two of Diamonds</option>
+        <option value="28">Three of Diamonds</option>
+        <option value="29">Four of Diamonds</option>
+        <option value="30">Five of Diamonds</option>
+        <option value="31">Six of Diamonds</option>
+        <option value="32">Seven of Diamonds</option>
+        <option value="33">Eight of Diamonds</option>
+        <option value="34">Nine of Diamonds</option>
+        <option value="35">Ten of Diamonds</option>
+        <option value="36">Jack of Diamonds</option>
+        <option value="37">Queen of Diamonds</option>
+        <option value="38">King of Diamonds</option>
+
+        <option value="39">Ace of Hearts</option>
+        <option value="40">Two of Hearts</option>
+        <option value="41">Three of Hearts</option>
+        <option value="42">Four of Hearts</option>
+        <option value="43">Five of Hearts</option>
+        <option value="44">Six of Hearts</option>
+        <option value="45">Seven of Hearts</option>
+        <option value="46">Eight of Hearts</option>
+        <option value="47">Nine of Hearts</option>
+        <option value="48">Ten of Hearts</option>
+        <option value="49">Jack of Hearts</option>
+        <option value="50">Queen of Hearts</option>
+        <option value="51">King of Hearts</option>
+    </select>
+
+    <label for="">hand description</label>
+    <textarea name="hand_description" rows="5" cols="30" required></textarea>
+
+    <label for="">betting stage</label>
+    <select name="stage">     
+        <option value="Pre Flop">Pre flop</option>
+        <option value="Flop">Flop</option>
+        <option value="Turn">Turn</option>
+        <option value="River">River</option>
+    </select>
+
+    <label for="">action</label>
+    <select name="action">     
+        <option value="Check">check</option>
+        <option value="Raise">raise</option>
+        <option value="Re-raise">re-raise</option>
+        <option value="Fold">fold</option>
+    </select>
+
+    <button>post</button>
+</form>

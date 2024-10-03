@@ -1,0 +1,28 @@
+<div class="grid-wrapper">
+
+    <h2 class="tracking-in-expand page-title">Highlight Hands</h2>
+    
+    <div class="highlight-grid">
+        <% for (let hand of highlightHands) { %>
+            <div class="highlight-card">
+                <header>
+                    <p>Hand Posted by<span class="highlight-text"><%= hand.username %></span></p>
+                </header>
+                <section>
+                    <p class="p-shadows">Hole Cards:</p>
+                    <div class="center-items">
+                        <img src="/cards/<%= hand.hole_card_1%>.svg" alt="">
+                        <img src="/cards/<%= hand.hole_card_2%>.svg" alt="">
+                    </div>
+                    <p class="hand-note">description: <%= hand.hand_description %></p>
+                    <a href="/highlight/<%= hand.highlight_id %>">View Hand Details</a>
+                </section>
+            </div>
+        <% } %>
+    </div>
+
+    <form action="/highlights/new" class="center-items">
+        <button>Create New</button>
+    </form>
+
+</div>

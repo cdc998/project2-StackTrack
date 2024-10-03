@@ -4,13 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <nav>
+    <div class="nav-container">
         <form action="/">
-            <button>home</button>
+            <button>Home</button>
         </form>
-    </nav>
+
+        <% if (isLoggedIn) { %>
+            <form action="/playhistory">
+                <button>Dashboard</button>
+            </form>
+
+            <form action="/highlights">
+                <button>Highlight Hands</button>
+            </form>
+
+            <p>logged in as <%= currentUser.username %></p>
+
+            <form action="/logout?_method=delete" method="post">
+                <button>Log Out</button>
+            </form>
+        <% } %>
+    </div>
 
     <%- body %>
 </body>

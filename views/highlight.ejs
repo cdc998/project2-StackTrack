@@ -1,0 +1,44 @@
+<div class="highlight-page-wrapper">
+    <h2 class="page-title">Highlight Hand Details</h2>
+
+    <div class="flex-column">
+        <p>Posted by <span class="content"><%= highlightHand.username %></span></p>
+        <p>Blind Level: <span class="content"><%= highlightHand.blind_level %></span></p>
+        <p>Date: <span class="content"><%= highlightHand.session_date.toLocaleDateString('en-AU') %></span></p>
+        <p>Hole Cards:</p>
+        <div class="center-items">
+            <img src="/cards/<%= highlightHand.hole_card_1 %>.svg" alt="">
+            <img src="/cards/<%= highlightHand.hole_card_2 %>.svg" alt="">
+        </div>
+        <p>Description: <span class="content"><%= highlightHand.hand_description %></span></p>
+        <p>Betting Stage: <span class="content"><%= highlightHand.stage %></span></p>
+        <p>Action: <span class="content"><%= highlightHand.action %></span></p>
+    </div>
+
+    <% if (highlightHand.user_id === currentUserId) {%>
+        <form action="/highlights/<%= highlightHand.highlight_id %>/edit" class="center-items">
+            <button>Edit Hand</button>
+        </form>
+    <% } %>
+
+    <div class="comment-wrapper">
+        <h1>Comments</h1>
+
+        <% for (let comment of comments) { %>
+            <div class="single-comment">
+                <p class="bigger-text"><%= comment.comment_text %></p>
+                <p>commented by <%= comment.username %></p>
+            </div>
+        <% } %>
+        
+
+        <form action="/comments" method="post">
+            <input type="hidden" name="highlight_id" value="<%= highlightHand.highlight_id %>">
+            
+            <label for="">Leave a comment!</label>
+            <textarea name="comment" id="" placeholder="Share your thoughts on this hand..."></textarea>
+
+            <button>Post Comment</button>
+        </form>
+    </div>
+</div>

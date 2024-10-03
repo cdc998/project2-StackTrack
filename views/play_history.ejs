@@ -1,19 +1,28 @@
-<h2>play history</h2>
+<div class="grid-wrapper">
 
-<% for (let hand of handsHistory) { %>
+    <h2 class="tracking-in-expand page-title">Your Playing History</h2>
+    
+    <div class="card-grid">
+        <% for (let hand of handsHistory) { %>
+        <div class="history-card">
+            <header>
+                <p>blind:
+                <span class="highlight-text"><%= hand.blind_level %></span></p>
+            </header>
+            <section>
+                <p class="p-shadows">Win/Loss: <span class="bigger-text"><%= hand.win_loss %></span></p>
+                <p class="p-shadows">Date: <span class="bigger-text"><%= hand.session_date.toLocaleDateString('en-AU') %></span></p>
+            </section>
+            <p class="hand-note">notes: <%= hand.notes %></p>
+            <form action="/playhistory/<%= hand.hand_id %>/edit">
+                <button>Edit Hand</button>
+            </form>
+        </div>
+    <% } %>
+    </div>
 
-<p>hand id: <%= hand.hand_id %></p>
+    <form action="/playhistory/new" class="center-items">
+        <button>Create New</button>
+    </form>
 
-<p>blind level: <%= hand.blind_level %></p>
-
-<p>session date: <%= hand.session_date.toLocaleDateString('en-AU') %></p>
-
-<p>win loss: <%= hand.win_loss %></p>
-
-<p>notes: <%= hand.notes %></p>
-
-<form action="/playhistory/<%= hand.hand_id %>/edit">
-    <button>edit hand</button>
-</form>
-
-<% } %>
+</div>
