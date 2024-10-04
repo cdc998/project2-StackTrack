@@ -51,7 +51,9 @@ INSERT INTO play_history (user_id, blind_level, session_date, win_loss, notes) V
 (3, '2/5', '2024-09-21', 250, 'Started off slow but gained momentum with strong pocket pairs.'),
 (3, '5/10', '2024-09-22', -150, 'Tried an all-in move, got called, and lost the hand.'),
 (3, '1/3', '2024-09-23', 75, 'Folded early but caught a big hand and doubled up near the end of the session.'),
-(3, '1/2', '2024-09-25', 100, 'Played tight and focused, took a few calculated risks that paid off.'),
+(3, '1/2', '2024-09-25', 100, 'Played tight and focused, took a few calculated risks that paid off.');
+
+INSERT INTO play_history (user_id, blind_level, session_date, win_loss, notes) VALUES 
 (1, '1/3', '2024-09-26', 180, 'Caught some good hands and played aggressive. Took down a few large pots.'),
 (1, '5/10', '2024-09-27', -300, 'Bluffed a bit too much. Got called down and paid the price.'),
 (1, '2/5', '2024-09-28', 220, 'Played a patient game, only entered strong hands and won consistently.'),

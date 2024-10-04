@@ -1,0 +1,15 @@
+<div class="comment_edit_form_wrapper">
+    <h2 class="page-title">Edit Your Comment</h2>
+
+    <form action="/comments/<%= comment.comment_id %>?_method=put" method="post" class="flex-column center-items align-items">
+
+        <textarea name="comment" id="" placeholder="Share your thoughts on this hand..."><%= comment.comment_text %></textarea>
+
+        <button>Edit Comment</button>
+
+    </form>
+   
+    <form action="/comments/<%= comment.comment_id %>?_method=delete" method="post" class="flex-column align-items">
+        <button>Delete Comment</button>
+    </form>
+</div>

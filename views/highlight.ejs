@@ -27,7 +27,12 @@
         <% for (let comment of comments) { %>
             <div class="single-comment">
                 <p class="bigger-text"><%= comment.comment_text %></p>
-                <p>commented by <%= comment.username %></p>
+                <div class="comment-footer">
+                    <p>commented by <%= comment.username %></p>
+                    <% if (comment.user_id === currentUserId) {%>
+                        <a href="/comments/<%= comment.comment_id %>/edit">edit comment</a>
+                    <% } %>
+                </div>
             </div>
         <% } %>
         

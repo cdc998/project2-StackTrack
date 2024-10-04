@@ -53,6 +53,9 @@ img {
     width: 400px;
 }
 
+.align-items {
+    align-items: center;
+}
 
 
 /* LAYOUT */
@@ -287,12 +290,23 @@ img {
     border-radius: 15px;
     width: 600px;
     margin-bottom: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .single-comment p {
     padding: 0px 10px;
 }
 
+.comment-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-footer a {
+    margin: 16px 10px 16px 0px;
+}
 
 
 /* NEW PLAY HISTORY PAGE */
@@ -362,6 +376,16 @@ img {
 
 .highlight-edit-form-wrapper textarea {
     width: 400px;
+    resize: none;
+}
+
+
+
+/* EDIT COMMENT PAGE */
+
+.comment_edit_form_wrapper textarea {
+    width: 400px;
+    height: 60px;
     resize: none;
 }
 

@@ -23,4 +23,64 @@ router.post('/comments', (req, res) => {
     })
 })
 
+router.get('/comments/:comment_id/edit', (req, res) => {
+    const sql = `
+    SELECT * FROM comments 
+    WHERE comment_id = $1;
+    `
+
+    db.query(sql, [req.params.comment_id], (err, result) => {
+        const comment = result.rows[0]
+
+        if (result.rows[0].user_id !== req.session.userId) {
+            return res.send('You do not have permission.')
+        }
+
+        res.render('comment_edit_form', {comment})
+    })
+})
+
+router.put('/comments/:comment_id', (req, res) => {
+    const comment = req.body.comment
+
+    const sql = `
+    UPDATE comments  
+    SET comment_text = $1 
+    WHERE comment_id = $2 
+    RETURNING *;
+    `
+
+    db.query(sql, [comment, req.params.comment_id], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+
+        console.log(result)
+
+        let highlightId = result.rows[0].highlight_id
+
+        res.redirect(`/highlight/${highlightId}`)
+    })
+})
+
+router.delete('/comments/:comment_id', (req, res) => {
+    const sql = `
+    DELETE FROM comments 
+    WHERE comment_id = $1 
+    RETURNING *
+    `
+
+    db.query(sql, [req.params.comment_id], (err, result) => {
+        if (err) {
+            console.log(err)
+        }
+
+        console.log(result)
+
+        let highlightId = result.rows[0].highlight_id
+
+        res.redirect(`/highlight/${highlightId}`)
+    })
+})
+
 module.exports = router

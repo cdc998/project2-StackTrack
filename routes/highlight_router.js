@@ -72,6 +72,11 @@ router.get('/highlights/:highlightId/edit', (req, res) => {
 
     db.query(sql, [req.params.highlightId], (err, result) => {
         const highlight = result.rows[0]
+
+        if (result.rows[0].user_id !== req.session.userId) {
+            return res.send('You do not have permission.')
+        }
+
         res.render('highlight_edit_form', {highlight})
     })
 })

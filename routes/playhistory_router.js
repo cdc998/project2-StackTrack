@@ -33,6 +33,11 @@ router.get('/playhistory/:handId/edit', (req, res) => {
 
     db.query(sql, [req.params.handId], (err, result) => {
         const hand = result.rows[0]
+
+        if (result.rows[0].user_id !== req.session.userId) {
+            return res.send('You do not have permission.')
+        }
+
         res.render('play_edit_form', {hand})
     })
 })
