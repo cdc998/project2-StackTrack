@@ -17,11 +17,11 @@
                 <button>Dashboard</button>
             </form>
 
-            <form action="/highlights">
+            <form action="/highlights" class="highlight-button">
                 <button>Highlight Hands</button>
             </form>
-
-            <p>logged in as <%= currentUser.username %></p>
+            
+            <p class="logged-in-text">Logged in as <%= currentUser.username %></p>
 
             <form action="/logout?_method=delete" method="post">
                 <button>Log Out</button>

@@ -5,8 +5,9 @@
     <div class="highlight-grid">
         <% for (let hand of highlightHands) { %>
             <div class="highlight-card">
-                <header>
-                    <p>Hand Posted by<span class="highlight-text"><%= hand.username %></span></p>
+                <header class="header-container">
+                    <p>Hand Posted by</p>
+                    <p class="highlight-title"><%= hand.username %></p>
                 </header>
                 <section>
                     <p class="p-shadows">Hole Cards:</p>

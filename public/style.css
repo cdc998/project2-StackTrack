@@ -53,11 +53,22 @@ img {
     width: 400px;
 }
 
+
+
 /* LAYOUT */
 
 .nav-container {
     display: flex;
-    height: 10vh;
+    height: 5vh;
+    align-items: center;
+}
+
+.logged-in-text {
+    font-family: "Playfair Display", serif;
+}
+
+.highlight-button {
+    flex-grow: 1;
 }
 
 
@@ -67,7 +78,7 @@ img {
 .home-container {
     display: flex;
     flex-direction: column;
-    height: 90vh;
+    height: 95vh;
     justify-content: center;
     align-items: center;
     overflow: hidden;
@@ -139,7 +150,7 @@ img {
 .grid-wrapper {
     display: flex;
     flex-direction: column;
-    height: 90vh;
+    height: 95vh;
 }
 
 .card-grid {
@@ -175,10 +186,6 @@ img {
     justify-content: space-between;
     align-items: center;
     padding: 0px 10px;
-}
-
-.highlight-text {
-    font-size: 50px;
 }
 
 .bigger-text {
@@ -221,21 +228,25 @@ img {
 .highlight-card header {
     background-color: rgb(52, 52, 52);
     border-radius: 20px;
-    display: flex;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+    justify-items: center;
+    align-items: center;
 }
 
-.highlight-card header p {
-    margin: 5px 0px 5px 20px;
-}
-
-.highlight-card header span {
-    margin-left: 200px;
+.highlight-text {
     text-shadow: 0 0 18px rgba(230, 230, 230, 0.35);
+    font-size: 50px;
 }
 
 .highlight-card section {
     padding: 10px;
+}
+
+.highlight-title {
+    font-size: 50px;
+    text-shadow: 0 0 18px rgba(230, 230, 230, 0.35);
+    margin: 10px 20px 10px 0px;
 }
 
 
@@ -262,7 +273,7 @@ img {
 
 .highlight-page-wrapper {
     overflow-y: scroll;
-    height: 90vh;
+    height: 95vh;
     font-family: "Playfair Display", serif;
 }
 
@@ -302,7 +313,7 @@ img {
 
 
 
-/* NEW PLAY HISTORY PAGE */
+/* PLAY HISTORY EDIT PAGE */
 
 .play-edit-form-wrapper label {
     font-size: 20px;
@@ -318,6 +329,41 @@ img {
     resize: none;
 }
 
+
+
+/* NEW HIGHLIGHT PAGE */
+
+.new-highlight-form-wrapper label {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.new-highlight-form-wrapper button {
+    margin: 20px auto;
+}
+
+.new-highlight-form-wrapper textarea {
+    width: 400px;
+    resize: none;
+}
+
+
+
+/* EDIT HIGHLIGHT PAGE */
+
+.highlight-edit-form-wrapper label {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.highlight-edit-form-wrapper button {
+    margin: 20px auto;
+}
+
+.highlight-edit-form-wrapper textarea {
+    width: 400px;
+    resize: none;
+}
 
 
 
@@ -372,6 +418,7 @@ button {
     background: rgb(22, 42, 77);
 }
   
+
 
 /* ANIMATION */
 
